@@ -2,10 +2,8 @@ import React from 'react'
 import './Dashboard.css'
 import SideBar from './SideBar'
 
-function Dashboard() {
+function Dashboard({addTab,tabs, switchTab, closeTab}) {
   return (
-    <div className='admin-container'>
-      <SideBar/>
     <div className='dashboard-container'>
         <h1 className='dashboard-title'>Dashboard</h1>
         <div className='dashboard-grid'>
@@ -85,7 +83,6 @@ function Dashboard() {
               </div>
           </div>
         </div>
-    </div>
     </div>
   )
 }

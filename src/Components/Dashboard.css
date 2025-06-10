@@ -91,3 +91,27 @@
 .bg-blue { background-color: #3498db; }
 .bg-green { background-color: #2ecc71; }
 .bg-yellow { background-color: #f1c40f; }
+/* Dashboard.css */
+.dashboard-header {
+  margin-bottom: 20px;
+}
+
+.dashboard-tabs {
+  display: flex;
+  margin-bottom: 10px;
+  border-bottom: none;
+}
+
+.dashboard-tab {
+  padding: 8px 16px;
+  margin-right: 5px;
+  cursor: pointer;
+  color: #666;
+  font-size: 14px;
+}
+
+.dashboard-tab.active {
+  color: #000;
+  font-weight: bold;
+  border-bottom: 2px solid #000;
+}
