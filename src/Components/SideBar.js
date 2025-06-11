@@ -7,14 +7,30 @@ import {
   faUserTie, 
   faCalendarWeek, 
   faBars, 
-  faTimes 
+  faTimes,
+  faChevronDown,
+  faChevronRight,
+  faUser,
+  faTable
 } from '@fortawesome/free-solid-svg-icons';
 
 function SideBar({ addTab }) {
   const [collapsed, setCollapsed] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
   
   const handleTabClick = (e, tabId, tabTitle, path) => {
     e.preventDefault();
+    addTab(tabId, tabTitle, path);
+  };
+
+  const toggleUserMenu = (e) => {
+    e.preventDefault();
+    setUserMenuOpen(!userMenuOpen);
+  };
+
+  const handleUserSubMenu = (e, tabId, tabTitle, path) => {
+    e.preventDefault();
+    e.stopPropagation();
     addTab(tabId, tabTitle, path);
   };
 
@@ -43,18 +59,53 @@ function SideBar({ addTab }) {
               )}
             </Link>
           </li>
-          <li>
+          
+          {/* User Information with Dropdown */}
+          <li className={`dropdown ${userMenuOpen ? 'open' : ''}`}>
             <Link 
-              to="/users" 
-              onClick={(e) => handleTabClick(e, 'users', 'User Management', '/users')}
+              to="#" 
+              onClick={toggleUserMenu}
+              className="dropdown-toggle"
             >
               {collapsed ? (
                 <FontAwesomeIcon icon={faUserTie} size="xl" />
               ) : (
-                <span>User Information</span>
+                <>
+                  <span>User Information</span>
+                  <FontAwesomeIcon 
+                    icon={userMenuOpen ? faChevronDown : faChevronRight} 
+                    className="dropdown-icon"
+                  />
+                </>
               )}
             </Link>
+            
+            {!collapsed && userMenuOpen && (
+              <ul className="dropdown-menu">
+                <li>
+                  <Link 
+                    to="/user-personal-info"
+                    onClick={(e) => handleUserSubMenu(e, 'user-personal-info', 'User Personal Info', '/user-personal-info')}
+                    className="dropdown-item"
+                  >
+                    <FontAwesomeIcon icon={faUser} />
+                    <span>User Personal Info</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link 
+                    to="/user-data"
+                    onClick={(e) => handleUserSubMenu(e, 'user-data', 'User Data', '/user-data')}
+                    className="dropdown-item"
+                  >
+                    <FontAwesomeIcon icon={faTable} />
+                    <span>User Data</span>
+                  </Link>
+                </li>
+              </ul>
+            )}
           </li>
+
           <li>
             <Link 
               to="/products" 

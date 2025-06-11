@@ -1,4 +1,4 @@
-.admin-container {
+/* .admin-container {
   display: flex;
   min-height: 100vh;
 }
@@ -92,7 +92,7 @@
 .bg-green { background-color: #2ecc71; }
 .bg-yellow { background-color: #f1c40f; }
 /* Dashboard.css */
-.dashboard-header {
+/* .dashboard-header {
   margin-bottom: 20px;
 }
 
@@ -114,4 +114,4 @@
   color: #000;
   font-weight: bold;
   border-bottom: 2px solid #000;
-}
+}  */
