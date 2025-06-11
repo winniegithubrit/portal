@@ -1,7 +1,7 @@
 import React from 'react';
 import SideBar from './SideBar';
 
-function Products({ addTab }) {
+function Finance({ addTab }) {
   return (
       <div className='products-container'>
         <h1>Product Management</h1>
@@ -9,4 +9,4 @@ function Products({ addTab }) {
   );
 }
 
-export default Products;
+export default Finance;

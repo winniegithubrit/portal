@@ -108,13 +108,13 @@ function SideBar({ addTab }) {
 
           <li>
             <Link 
-              to="/products" 
-              onClick={(e) => handleTabClick(e, 'products', 'Product Management', '/products')}
+              to="/finance" 
+              onClick={(e) => handleTabClick(e, 'products', 'Financial Management', '/finance')}
             >
               {collapsed ? (
                 <FontAwesomeIcon icon={faCartPlus} size="xl" />
               ) : (
-                <span>Products</span>
+                <span>Finance</span>
               )}
             </Link>
           </li>

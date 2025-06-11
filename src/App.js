@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import Dashboard from './Components/Dashboard';
 import Users from './Components/Users';
-import Products from './Components/Products';
+import Finance from './Components/Finance';
 import UserPersonalInfo from './Components/UserPersonalInfo';
 import UserData from './Components/UserData';
 import TabManager from './Components/TabManager';
@@ -36,9 +36,9 @@ function App() {
             <UserData />
           </TabManager>
         }/>
-        <Route path="/products" element={
+        <Route path="/finance" element={
           <TabManager>
-            <Products />
+            <Finance />
           </TabManager>
         }/>
       </Routes>
