@@ -8,6 +8,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 function UserPersonalInfo() {
+  // Form data stores all the user input values
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -31,6 +32,7 @@ function UserPersonalInfo() {
   useEffect(() => {
     const fetchUsersAndExtractOptions = async () => {
       try {
+        // fetches unique values to populate on the drop down
         const response = await fetch('http://localhost:3001/users');
         
         if (!response.ok) {
@@ -39,12 +41,11 @@ function UserPersonalInfo() {
         
         const users = await response.json();
         console.log('Fetched users:', users);
+        // Maps through users and picks out their gender values.filter(Boolean) removes null or empty values.new Set() removes duplicates.[...] spreads the Set into a regular array.
         const uniqueGenders = [...new Set(users.map(user => user.gender).filter(Boolean))];
         const uniqueRoles = [...new Set(users.map(user => user.jobTitle).filter(Boolean))];
         const uniqueStatuses = [...new Set(users.map(user => user.status).filter(Boolean))];
-
-        console.log('Extracted options:', { uniqueGenders, uniqueRoles, uniqueStatuses });
-
+// the unique values are then saved in the dropdownoptions
         setDropdownOptions({
           genders: uniqueGenders,
           roles: uniqueRoles,
@@ -52,6 +53,7 @@ function UserPersonalInfo() {
         });
       } catch (error) {
         console.error('Error fetching users:', error);
+        // these options below are used if fetch fails for the form to remain usable
         setDropdownOptions({
           genders: ['male', 'female', 'other'],
           roles: ['Software Developer', 'Marketing Manager', 'Financial Analyst', 'HR Specialist'],
@@ -67,11 +69,13 @@ function UserPersonalInfo() {
     const newErrors = {};
     
     if (!formData.name.trim()) newErrors.name = 'Full name is required';
+    // checks the email and validates the format using regex
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Email format is invalid';
     }
+    // removing whitespace with .trim()
     if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
     if (!formData.address.trim()) newErrors.address = 'Address is required';
     if (!formData.dateOfBirth) newErrors.dateOfBirth = 'Date of birth is required';
@@ -84,6 +88,7 @@ function UserPersonalInfo() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    // updates the form with the new value
     setFormData(prev => ({
       ...prev,
       [name]: value
@@ -103,10 +108,10 @@ function UserPersonalInfo() {
       setMessage({ type: 'error', text: 'Please fix the errors below' });
       return;
     }
-
+// activating the loading state
     setLoading(true);
     setMessage({ type: '', text: '' });
-
+// preparing the payload to send
     try {
       const submitData = {
         ...formData,
@@ -131,6 +136,7 @@ function UserPersonalInfo() {
       }
 
       setMessage({ type: 'success', text: 'User information saved successfully!' });
+      // reseting the form data to blank
       setFormData({
         name: '',
         email: '',
@@ -148,7 +154,7 @@ function UserPersonalInfo() {
       setLoading(false);
     }
   };
-
+// empties the form after a successful save
   const handleReset = () => {
     setFormData({
       name: '',

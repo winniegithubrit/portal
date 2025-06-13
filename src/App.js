@@ -9,6 +9,9 @@ import Users from './Components/Users';
 import Finance from './Components/Finance';
 import UserPersonalInfo from './Components/UserPersonalInfo';
 import UserData from './Components/UserData';
+import SavingsAccount from './Components/SavingsAccount'
+import LoanApplication from './Components/LoanApplication'
+import LoanApproval from './Components/LoanApproval'
 import TabManager from './Components/TabManager';
 
 function App() {
@@ -39,6 +42,22 @@ function App() {
         <Route path="/finance" element={
           <TabManager>
             <Finance />
+          </TabManager>
+        }/>
+        <Route path="/loan-application" element={
+          <TabManager>
+            <LoanApplication/>
+          </TabManager>
+        }
+        />
+        <Route path="/loan-approvals" element={
+          <TabManager>
+            <LoanApproval />
+          </TabManager>
+        }/>
+        <Route path="/savings-account" element={
+          <TabManager>
+            <SavingsAccount />
           </TabManager>
         }/>
       </Routes>

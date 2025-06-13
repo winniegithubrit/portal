@@ -1,6 +1,6 @@
 import React from 'react';
 import SideBar from './SideBar';
-
+// lets the user component add a new tab (create a new tab)
 function Users({ addTab }) {
   return (
       <div className='users-container'>
@@ -8,5 +8,4 @@ function Users({ addTab }) {
       </div>
   );
 }
-
 export default Users;

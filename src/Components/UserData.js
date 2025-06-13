@@ -16,6 +16,7 @@ function UserData() {
     fetchUsers();
   }, []);
   useEffect(() => {
+    // ensures that when the component reloads it is reset to one
     setCurrentPage(1);
     setPageInputValue('1');
   }, [searchTerm]);
@@ -35,7 +36,7 @@ function UserData() {
       setLoading(false);
     }
   };
-
+// sorts according to that column (sorting orders in both directions by clicking on the column headers )
   const handleSort = (column) => {
     if (sortBy === column) {
       setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
@@ -48,6 +49,7 @@ function UserData() {
   };
   const processedUsers = useMemo(() => {
     const filtered = users.filter(user =>
+      // checking if its a case-insesitive match
       user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.role?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -57,16 +59,18 @@ function UserData() {
       user.gender?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.status?.toLowerCase().includes(searchTerm.toLowerCase())
     );
+    // using sort method to organise filtered results
     return [...filtered].sort((a, b) => {
       let aValue = a[sortBy];
       let bValue = b[sortBy];
-      
+      // if strings convert to lowercase
       if (typeof aValue === 'string') {
         aValue = aValue.toLowerCase();
         bValue = bValue.toLowerCase();
       }
-      
+      // determining the sort order (if true returns 1)
       if (sortOrder === 'asc') {
+        // if a value is greater that b value 1 is returned swapping them and vice versa
         return aValue > bValue ? 1 : -1;
       } else {
         return aValue < bValue ? 1 : -1;
@@ -75,8 +79,10 @@ function UserData() {
   }, [users, searchTerm, sortBy, sortOrder]);
   const totalItems = processedUsers.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
+  // finds where the current page starts in the array
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
+  // creates a new array from processed users to appaer on the current page
   const currentUsers = processedUsers.slice(startIndex, endIndex);
   const getPageNumbers = () => {
     const pages = [];
@@ -111,20 +117,22 @@ function UserData() {
     }
     return pages;
   };
-
+// changing the current page when clicked
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
       setPageInputValue(page.toString());
     }
   };
-
+// updates the page input value state when the user eneters the number manually in the input box
   const handlePageInputChange = (e) => {
     setPageInputValue(e.target.value);
   };
-
+// submits input page number
   const handlePageInputSubmit = (e) => {
+    // Prevents default form submission behavior
     e.preventDefault();
+    // checks the validity of the number inpited and sets it as the current page
     const page = parseInt(pageInputValue);
     if (!isNaN(page) && page >= 1 && page <= totalPages) {
       setCurrentPage(page);
@@ -132,7 +140,7 @@ function UserData() {
       setPageInputValue(currentPage.toString());
     }
   };
-
+// changes items displayed per page(5,10,20)
   const handleItemsPerPageChange = (e) => {
     const newItemsPerPage = parseInt(e.target.value);
     setItemsPerPage(newItemsPerPage);
@@ -148,8 +156,11 @@ function UserData() {
       if (!response.ok) {
         throw new Error('Failed to delete user');
       }
+      // removes the user from the list
       setUsers(users.filter(user => user.id !== userId));
+      // calculates the new total number of users after deletion
       const newTotalItems = totalItems - 1;
+      // no of pages
       const newTotalPages = Math.ceil(newTotalItems / itemsPerPage);
       if (currentPage > newTotalPages && newTotalPages > 0) {
         setCurrentPage(newTotalPages);
@@ -160,8 +171,8 @@ function UserData() {
     }
   };
 
-  if (loading) return <div className="loading">Loading users...</div>;
-  if (error) return <div className="error">Error: {error}</div>;
+  // if (loading) return <div className="loading">Loading users...</div>;
+  // if (error) return <div className="error">Error: {error}</div>;
 
   return (
     <div className="user-data">

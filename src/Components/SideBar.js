@@ -11,29 +11,43 @@ import {
   faChevronDown,
   faChevronRight,
   faUser,
-  faTable
+  faTable,
+  faPiggyBank,
+  faFileInvoiceDollar,
+  faCheckCircle
 } from '@fortawesome/free-solid-svg-icons';
 
 function SideBar({ addTab }) {
   const [collapsed, setCollapsed] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  
+  const [financeMenuOpen, setFinanceMenuOpen] = useState(false)
+  // handles click event for the tab in the sidebar(receives tabid, title and e as parameters)
   const handleTabClick = (e, tabId, tabTitle, path) => {
     e.preventDefault();
     addTab(tabId, tabTitle, path);
   };
-
+// show the submenus for the 
   const toggleUserMenu = (e) => {
     e.preventDefault();
     setUserMenuOpen(!userMenuOpen);
   };
+// enables expanding and collapsing the menu
+  const toggleFinanceMenu =(e) => {
+    e.preventDefault()
+    setFinanceMenuOpen(!financeMenuOpen)
+  }
 
   const handleUserSubMenu = (e, tabId, tabTitle, path) => {
     e.preventDefault();
     e.stopPropagation();
     addTab(tabId, tabTitle, path);
   };
-
+  // manages specific functions in the sub menu
+  const handleFinanceSubMenu = (e, tabId, tabTitle, path) =>{
+    e.preventDefault()
+    e.stopPropagation()
+    addTab(tabId, tabTitle,path)
+  }
   return (
     <div className='major-container'>
       <div className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
@@ -59,8 +73,7 @@ function SideBar({ addTab }) {
               )}
             </Link>
           </li>
-          
-          {/* User Information with Dropdown */}
+          {/* contols visiblity of the dropdown menu */}
           <li className={`dropdown ${userMenuOpen ? 'open' : ''}`}>
             <Link 
               to="#" 
@@ -79,12 +92,13 @@ function SideBar({ addTab }) {
                 </>
               )}
             </Link>
-            
+            {/* only visible when the user menu is open  */}
             {!collapsed && userMenuOpen && (
               <ul className="dropdown-menu">
                 <li>
                   <Link 
                     to="/user-personal-info"
+                    // toggles user dropdown visibility shows or hides the menu options
                     onClick={(e) => handleUserSubMenu(e, 'user-personal-info', 'User Personal Info', '/user-personal-info')}
                     className="dropdown-item"
                   >
@@ -105,18 +119,60 @@ function SideBar({ addTab }) {
               </ul>
             )}
           </li>
-
-          <li>
+          {/* when true it opens when false it doesnt */}
+          <li className={`dropdown ${financeMenuOpen ? 'open' : ''}`}>
             <Link 
-              to="/finance" 
-              onClick={(e) => handleTabClick(e, 'products', 'Financial Management', '/finance')}
+              to="#" 
+              onClick={toggleFinanceMenu}
+              className="dropdown-toggle"
             >
               {collapsed ? (
                 <FontAwesomeIcon icon={faCartPlus} size="xl" />
               ) : (
-                <span>Finance</span>
+                <>
+                  <span>Finance</span>
+                  <FontAwesomeIcon 
+                    icon={financeMenuOpen ? faChevronDown : faChevronRight} 
+                    className="dropdown-icon"
+                  />
+                </>
               )}
             </Link>
+            
+            {!collapsed && financeMenuOpen && (
+              <ul className="dropdown-menu">
+                <li>
+                  <Link 
+                    to="/savings-account"
+                    onClick={(e) => handleFinanceSubMenu(e, 'savings-account', 'Savings Account', '/savings-account')}
+                    className="dropdown-item"
+                  >
+                    <FontAwesomeIcon icon={faPiggyBank} />
+                    <span>Savings Account</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link 
+                    to="/loan-application"
+                    onClick={(e) => handleFinanceSubMenu(e, 'loan-application', 'Loan Application', '/loan-application')}
+                    className="dropdown-item"
+                  >
+                    <FontAwesomeIcon icon={faFileInvoiceDollar} />
+                    <span>Loan Application</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link 
+                    to="/loan-approvals"
+                    onClick={(e) => handleFinanceSubMenu(e, 'loan-approvals', 'Loan Approvals', '/loan-approvals')}
+                    className="dropdown-item"
+                  >
+                    <FontAwesomeIcon icon={faCheckCircle} />
+                    <span>Loan Approvals</span>
+                  </Link>
+                </li>
+              </ul>
+            )}
           </li>
         </ul>
       </div>
